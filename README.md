@@ -1,2 +1,0 @@
-# Woodle
-The famous game
