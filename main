@@ -1,0 +1,60 @@
+from Wordle175 import random_word,ScrablleDict,intersections
+# calling out a random word and making it into the list 
+word=random_word()
+letter_of_word=list(word)
+# making three new lists for the red , orange and green 
+red=[]
+orange=[]
+green=[]
+words=ScrablleDict(5,"scrabble5.txt")
+Values=list(words.dict.values())
+# taking the attempts 
+attempts=1 
+# making a user input list 
+user_input_list=[]
+# using while loop to place the game 
+while True:
+    # printing the user input as specified 
+    user_input=input("Attempt "+str(attempts)+": Please enter a 5 five-letter word:").lower()
+    # checking if the input word is 5 words long and is in the keys of the dictionary 
+    if len(user_input)==5 and user_input in Values:
+        input_word=list(user_input)
+        # appending the user input in the list 
+        user_input_list.append(user_input.upper())
+        # appedning the intersection of the orange list 
+        orange.append(list(intersections(input_word,letter_of_word)))
+        # appending the words of the red list 
+        red.append(list(set(input_word)-set(letter_of_word)))
+        # making a sub green list for taking out the green alphabets 
+        sub_green=[]
+        for i in range(len(letter_of_word)):
+            if letter_of_word[i] == input_word[i]:
+                sub_green.append(letter_of_word[i])
+        # appending the sub green list in the green list  
+        green.append(sub_green)
+        # checking if the user has won by using the len sub green list and letter of words 
+        if len(sub_green)==len(letter_of_word):
+            # printing the result as per needed for the user 
+            print(user_input.upper(),"Green=",set(word),"-","Orange=","{}","-","Red=","{}")
+            print("Found in",attempts,"attempts. Well done. The Word is",word.upper())
+            break
+        # using the condition of the attempts to see if the person has lost or not 
+        elif attempts>=6:
+            print("Sorry you lose. The Word is ",word.upper())
+            break
+        # printing the sets as per needed after every user word
+        else:
+            for i in range(len(orange)):
+                print(user_input_list[i],"Green=",set(sorted(green[i])),"-","Orange=",set(sorted(orange[i])),"-","Red=",set(sorted(red[i])))
+        # incresing the attempts by one 
+        attempts=attempts+1
+    # using the elif and else statment to find out if the word id short, long or invaid 
+    elif len(user_input)<5:
+        print(user_input.upper()," is too short")
+    elif len(user_input)>5:
+        print(user_input.upper()    ," is too long")
+    
+    else:
+        print(user_input.upper()," is not a recognized word")
+    
+    
